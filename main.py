@@ -9,6 +9,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+        self.average_rating = 0
 
     def evaluation_lecture(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached:
@@ -18,6 +19,26 @@ class Student:
                 lecturer.grades[course] = [grade]
         else:
             return 'Ошибка'
+        sum_ratings = 0
+        number_ratings = 0
+        for list_ratings in lecturer.grades.values():
+            for rating in list_ratings:
+                sum_ratings += rating
+                number_ratings += 1
+        lecturer.average_rating = sum_ratings / number_ratings
+
+    def __str__(self):
+
+        object = f"Студент: \nИмя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: " \
+                 f"{self.average_rating}\nКурсы в процессе изучения: {', '.join(self.courses_in_progress)}\n" \
+                 f"Завершенные курсы: {', '.join(self.finished_courses)}"
+        return object
+
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print('Not a Character!')
+            return
+        return self.power < other.power
 
 class Mentor:
     def __init__(self, name, surname):
@@ -26,12 +47,15 @@ class Mentor:
         self.courses_attached = []
 
 
-
 class Lecturer (Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
+        self.average_rating = 0
         self.grades = {}
 
+    def __str__(self):
+        object = f'Лектор: \nИмя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_rating}'
+        return object
 
 class Reviewer (Mentor):
     def rate_hw(self, student, course, grade):
@@ -42,12 +66,27 @@ class Reviewer (Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
+        sum_ratings = 0
+        number_ratings = 0
+        for list_ratings in student.grades.values():
+            for rating in list_ratings:
+                sum_ratings += rating
+                number_ratings += 1
+        student.average_rating = sum_ratings / number_ratings
+
+    def __str__(self):
+        object = f'Проверяющий: \nИмя: {self.name}\nФамилия: {self.surname}'
+        return object
+
+
 
 Ruoy_Eman_student = Student('Ruoy', 'Eman', 'your_gender')
 Ruoy_Eman_student.courses_in_progress += ['python', 'Git']
+Ruoy_Eman_student.finished_courses += ['Введение в программирование']
 
 Robert_Paulsen_student = Student('Robert', 'Paulsen', 'your_gender')
 Robert_Paulsen_student.courses_in_progress += ['python', 'Git']
+Robert_Paulsen_student.finished_courses += ['Введение в программирование']
 
 Some_Buddy_Lecturer = Lecturer('Some', 'Buddy')
 Some_Buddy_Lecturer.courses_attached += ['python']
@@ -85,9 +124,12 @@ for estimation in [10, 10, 10, 10, 10]:
 for estimation in [9, 9, 8, 9, 10]:
     Robert_Paulsen_student.evaluation_lecture(Tailer_Durden_Lecturer, 'Git', estimation)
 
-print(Ruoy_Eman_student.grades)
-print(Some_Buddy_Lecturer.grades)
-print(Tailer_Durden_Lecturer.grades)
+print(Mike_Vazovsky_Reviewer, '\n')
+print(Peter_Pedigree_Reviewer, '\n')
+print(Some_Buddy_Lecturer, '\n')
+print(Tailer_Durden_Lecturer, '\n')
+print(Ruoy_Eman_student, '\n')
+print(Robert_Paulsen_student, '\n')
 
 
 # best_student = Student('Ruoy', 'Eman', 'your_gender')
