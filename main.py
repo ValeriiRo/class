@@ -36,9 +36,9 @@ class Student:
 
     def __lt__(self, other):
         if not isinstance(other, Lecturer):
-            print('Not a Character!')
+            print('Не является Лектором!')
             return
-        return self.power < other.power
+        return self.average_rating < other.average_rating
 
 class Mentor:
     def __init__(self, name, surname):
@@ -130,7 +130,7 @@ print(Some_Buddy_Lecturer, '\n')
 print(Tailer_Durden_Lecturer, '\n')
 print(Ruoy_Eman_student, '\n')
 print(Robert_Paulsen_student, '\n')
-
+print(f"У студента {Robert_Paulsen_student.surname} средня оценка меньше чем у лектора {Tailer_Durden_Lecturer.surname}: {Robert_Paulsen_student < Tailer_Durden_Lecturer}")
 
 # best_student = Student('Ruoy', 'Eman', 'your_gender')
 # best_student.courses_in_progress += ['Python']
