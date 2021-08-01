@@ -28,7 +28,6 @@ class Student:
         lecturer.average_rating = sum_ratings / number_ratings
 
     def __str__(self):
-
         object = f"Студент: \nИмя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: " \
                  f"{self.average_rating}\nКурсы в процессе изучения: {', '.join(self.courses_in_progress)}\n" \
                  f"Завершенные курсы: {', '.join(self.finished_courses)}"
@@ -39,6 +38,7 @@ class Student:
             print('Не является Лектором!')
             return
         return self.average_rating < other.average_rating
+
 
 class Mentor:
     def __init__(self, name, surname):
@@ -130,7 +130,33 @@ print(Some_Buddy_Lecturer, '\n')
 print(Tailer_Durden_Lecturer, '\n')
 print(Ruoy_Eman_student, '\n')
 print(Robert_Paulsen_student, '\n')
-print(f"У студента {Robert_Paulsen_student.surname} средня оценка меньше чем у лектора {Tailer_Durden_Lecturer.surname}: {Robert_Paulsen_student < Tailer_Durden_Lecturer}")
+
+print(f"У студента {Robert_Paulsen_student.surname} средня оценка меньше чем у лектора {Tailer_Durden_Lecturer.surname}: {Robert_Paulsen_student < Tailer_Durden_Lecturer}"
+      f"\n")
+
+list_students = [Ruoy_Eman_student, Robert_Paulsen_student]
+list_Lecturer = [Some_Buddy_Lecturer, Tailer_Durden_Lecturer]
+list_courses = ['python', 'Git']
+
+for courses in list_courses:
+    sum_ratings = 0
+    number_ratings = 0
+    for students in list_students:
+        if courses in students.courses_in_progress:
+            for estimation in students.grades[courses]:
+                sum_ratings += estimation
+                number_ratings += 1
+    print(f'средняя оценка всех студентов по курсу {courses}: {sum_ratings / number_ratings}')
+
+for courses in list_courses:
+    sum_ratings = 0
+    number_ratings = 0
+    for Lecturer in list_Lecturer:
+        if courses in Lecturer.courses_attached:
+            for estimation in Lecturer.grades[courses]:
+                sum_ratings += estimation
+                number_ratings += 1
+    print(f'средняя оценка всех Лекторов по курсу {courses}: {sum_ratings / number_ratings}')
 
 # best_student = Student('Ruoy', 'Eman', 'your_gender')
 # best_student.courses_in_progress += ['Python']
